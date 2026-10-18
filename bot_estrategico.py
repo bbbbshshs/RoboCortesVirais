@@ -36,7 +36,7 @@ def executar_sistema():
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         ydl.download([url_video])
         
-    print("✂️ [2/3] Processando e cortando o vídeo...")
+    print("✂️ [2/3] Processando e cortando o vídeo com FFmpeg...")
     inicio = 30.0
     duracao = 50.0
     corte_output = "corte_monetizavel.mp4"

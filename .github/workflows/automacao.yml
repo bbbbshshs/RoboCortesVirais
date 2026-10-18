@@ -1,0 +1,31 @@
+name: Bot Cortes Automaticos Nuvem
+
+on:
+  schedule:
+    - cron: '0 12 * * *' # Roda todo dia ao meio-dia automaticamente
+  workflow_dispatch: # Permite disparar manualmente pelo botão no GitHub
+
+jobs:
+  rodar-robo-nuvem:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar Repositorio
+        uses: actions/checkout@v3
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Instalar Dependencias e FFmpeg
+        run: |
+          sudo apt-get update && sudo apt-get install -y ffmpeg
+          pip install openai-whisper yt-dlp google-generativeai requests
+
+      - name: Executar Sistema de Cortes
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python bot_estrategico.py

@@ -76,12 +76,15 @@ def criar_estrategia_copy(transcricao_trecho, nicho):
     return resposta.text
 
 def executar_sistema():
-    # Link do vídeo de origem (pode ser alterado depois)
     url_video = "https://www.youtube.com/watch?v=dQw4w9WgXcQ" 
     nicho = "Construção e Negócios"
     
     print("⏳ [1/5] Baixando o vídeo principal...")
-    ydl_opts = {'format': 'best[height<=720][ext=mp4]', 'outtmpl': 'video_original.mp4'}
+    # Formato flexível ajustado para evitar erros de extração no YouTube
+    ydl_opts = {
+        'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
+        'outtmpl': 'video_original.mp4'
+    }
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         ydl.download([url_video])
         

@@ -2,8 +2,8 @@ name: Bot Cortes Automaticos Nuvem
 
 on:
   schedule:
-    - cron: '0 12 * * *' # Roda todo dia ao meio-dia automaticamente
-  workflow_dispatch: # Permite disparar manualmente pelo botão no GitHub
+    - cron: '0 12 * * *'
+  workflow_dispatch:
 
 jobs:
   rodar-robo-nuvem:
@@ -20,7 +20,8 @@ jobs:
       - name: Instalar Dependencias e FFmpeg
         run: |
           sudo apt-get update && sudo apt-get install -y ffmpeg
-          pip install openai-whisper yt-dlp google-generativeai requests
+          pip install --upgrade yt-dlp
+          pip install openai-whisper google-generativeai requests
 
       - name: Executar Sistema de Cortes
         env:

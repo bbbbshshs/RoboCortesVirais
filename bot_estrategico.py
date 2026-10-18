@@ -12,7 +12,8 @@ TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
 genai.configure(api_key=GEMINI_KEY)
-model = genai.GenerativeModel('gemini-1.5-flash')
+# Utilizando gemini-pro para compatibilidade total e sem erros de 404
+model = genai.GenerativeModel('gemini-pro')
 
 def enviar_telegram(video_path, legenda_texto):
     """Envia o vídeo cortado e a copy criada direto para o Telegram."""
@@ -80,7 +81,6 @@ def executar_sistema():
     nicho = "Construção e Negócios"
     
     print("⏳ [1/5] Baixando o vídeo principal...")
-    # Formato flexível ajustado para evitar erros de extração no YouTube
     ydl_opts = {
         'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
         'outtmpl': 'video_original.mp4'
@@ -103,7 +103,6 @@ def executar_sistema():
     print(f"✂️ [4/5] Cortando do segundo {inicio:.1f} até {inicio + duracao:.1f}...")
     corte_output = "corte_monetizavel.mp4"
     
-    # FFmpeg anti-copyright (espelhamento, zoom leve de 1.05x e ajuste sutil de áudio)
     comando_ffmpeg = [
         'ffmpeg', '-y',
         '-ss', str(inicio),

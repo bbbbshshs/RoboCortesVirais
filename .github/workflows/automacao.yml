@@ -20,8 +20,8 @@ jobs:
       - name: Instalar Dependencias e FFmpeg
         run: |
           sudo apt-get update && sudo apt-get install -y ffmpeg
-          pip install --upgrade yt-dlp
-          pip install openai-whisper google-generativeai requests
+          pip install --upgrade yt-dlp google-generativeai
+          pip install openai-whisper requests
 
       - name: Executar Sistema de Cortes
         env:

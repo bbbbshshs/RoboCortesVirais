@@ -2,9 +2,8 @@ import os
 import subprocess
 import requests
 import yt_dlp
-import whisper
 
-# Puxa as chaves de segurança da nuvem
+# Puxa as chaves seguras do Telegram da nuvem
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
@@ -29,7 +28,7 @@ def executar_sistema():
     url_video = "https://www.youtube.com/watch?v=dQw4w9WgXcQ" 
     nicho = "Construção e Negócios"
     
-    print("⏳ [1/4] Baixando o vídeo principal...")
+    print("⏳ [1/3] Baixando o vídeo principal...")
     ydl_opts = {
         'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
         'outtmpl': 'video_original.mp4'
@@ -37,15 +36,12 @@ def executar_sistema():
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         ydl.download([url_video])
         
-    print("🧠 [2/4] Processando áudio...")
-    # Trecho fixo e garantido de 50 segundos (do segundo 30 ao 80) para evitar qualquer falha na nuvem
+    print("✂️ [2/3] Processando e cortando o vídeo...")
     inicio = 30.0
     duracao = 50.0
-        
-    print(f"✂️ [3/4] Cortando do segundo {inicio} até {inicio + duracao}...")
     corte_output = "corte_monetizavel.mp4"
     
-    # FFmpeg anti-copyright (espelhamento e ajuste leve)
+    # FFmpeg anti-copyright (espelhamento, zoom leve e ajuste de áudio)
     comando_ffmpeg = [
         'ffmpeg', '-y',
         '-ss', str(inicio),
@@ -57,7 +53,7 @@ def executar_sistema():
     ]
     subprocess.run(comando_ffmpeg, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     
-    print("✍️ [4/4] Enviando ao Telegram...")
+    print("✍️ [3/3] Enviando ao Telegram...")
     mensagem_final = f"🚀 **CORTE ESTRATÉGICO PRONTO**\n\n📌 **Nicho:** {nicho}\n🎯 **Status:** Processado e Otimizado com Sucesso!"
     
     enviar_telegram(corte_output, mensagem_final)
